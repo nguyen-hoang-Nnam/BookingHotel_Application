@@ -59,7 +59,7 @@ namespace BookingHotel_Application.BLL.Service
             await _authRepository.UpdateAsync(user);
 
             response.IsSucceed = true;
-            response.Message = "Login successful";
+            response.Message = "Login successful!";
             response.Data = new { Token = token, RefreshToken = refreshToken };
 
             return response;
