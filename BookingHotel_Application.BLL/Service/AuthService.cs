@@ -97,7 +97,7 @@ namespace BookingHotel_Application.BLL.Service
             await _customerRepository.AddAsync(customer);
 
             response.IsSucceed = true;
-            response.Message = "Registration successful";
+            response.Message = "Registration successful!";
             response.Data = _mapper.Map<UserRegisterDTO>(user);
             return response;
         }
