@@ -16,6 +16,8 @@ namespace BookingHotel_Application.Model.Data
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Staff> Staffs { get; set; }
         public DbSet<Admin> Admins { get; set; }
+        public DbSet<Countries> Countries { get; set; }
+        public DbSet<Hotel> Hotels { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -33,6 +35,11 @@ namespace BookingHotel_Application.Model.Data
 
             modelBuilder.Entity<Admin>()
                 .HasKey(s => s.adminId);
+
+            modelBuilder.Entity<Countries>()
+                .HasKey(c => c.countryId);
+            modelBuilder.Entity<Hotel>()
+                .HasKey(h => h.hotelId);
         }
     }
 }
