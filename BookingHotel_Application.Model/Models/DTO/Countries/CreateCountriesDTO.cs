@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BookingHotel_Application.Model.Models.DTO.Countries
 {
-    internal class CreateCountriesDTO
+    public class CreateCountriesDTO
     {
         public string countryName { get; set; }
     }
