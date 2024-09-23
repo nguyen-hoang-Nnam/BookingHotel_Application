@@ -9,5 +9,8 @@ namespace BookingHotel_Application.DAL.Repository.IRepository
 {
     public interface IHotelRepository : IGenericRepository<Hotel>
     {
+        Task<IEnumerable<Hotel>> GetAll();
+        Task<Hotel?> GetById(int hotelid);
+        Task<IEnumerable<Hotel>> GetHotelsByCountryIdAsync(int countryId);
     }
 }

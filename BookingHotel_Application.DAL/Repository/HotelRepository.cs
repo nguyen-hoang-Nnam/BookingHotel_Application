@@ -1,6 +1,7 @@
 ﻿using BookingHotel_Application.DAL.Repository.IRepository;
 using BookingHotel_Application.Model.Data;
 using BookingHotel_Application.Model.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,23 @@ namespace BookingHotel_Application.DAL.Repository
         public HotelRepository(AppDbContext appDbContext) : base(appDbContext)
         {
             _appDbContext = appDbContext;
+        }
+
+        public async Task<IEnumerable<Hotel>> GetAll()
+        {
+            return await _appDbContext.Hotels.Include(h => h.Countries).ToListAsync();
+        }
+        public async Task<Hotel?> GetById(int id)
+        {
+            return await _appDbContext.Hotels.Include(h => h.Countries)
+                                      .FirstOrDefaultAsync(h => h.hotelId == id);
+        }
+        public async Task<IEnumerable<Hotel>> GetHotelsByCountryIdAsync(int countryId)
+        {
+            return await _appDbContext.Hotels
+                .Include(hotel => hotel.Countries)
+                .Where(hotel => hotel.Countries != null && hotel.Countries.countryId == countryId)
+                .ToListAsync();
         }
     }
 }

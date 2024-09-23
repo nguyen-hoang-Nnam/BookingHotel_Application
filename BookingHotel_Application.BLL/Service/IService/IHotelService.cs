@@ -15,5 +15,6 @@ namespace BookingHotel_Application.BLL.Service.IService
         Task<ResponseDTO> CreateHotelAsync(CreateHotelDTO createHotelDTO);
         Task<ResponseDTO> UpdateHotelAsync(int hotelid, UpdateHotelDTO updateHotelDTO);
         Task<ResponseDTO> DeleteHotelAsync(int hotelid);
+        Task<ResponseDTO> GetHotelsByCountryIdAsync(int countryId);
     }
 }

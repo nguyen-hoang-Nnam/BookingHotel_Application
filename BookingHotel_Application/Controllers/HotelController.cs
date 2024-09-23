@@ -67,5 +67,16 @@ namespace BookingHotel_Application.Controllers
             var response = await _hotelService.DeleteHotelAsync(id);
             return Ok(response);
         }
+
+        [HttpGet("GetByCountryId/{countryId}")]
+        public async Task<IActionResult> GetHotelsByCountryId(int countryId)
+        {
+            var result = await _hotelService.GetHotelsByCountryIdAsync(countryId);
+            if (!result.IsSucceed)
+            {
+                return NotFound(result.Message);
+            }
+            return Ok(result.Data);
+        }
     }
 }
