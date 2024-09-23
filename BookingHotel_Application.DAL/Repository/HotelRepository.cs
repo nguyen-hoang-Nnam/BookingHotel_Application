@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace BookingHotel_Application.DAL.Repository
 {
-    public class StaffRepository : GenericRepository<Staff>, IStaffRepository
+    public class HotelRepository : GenericRepository<Hotel> , IHotelRepository
     {
         private readonly AppDbContext _appDbContext;
 
-        public StaffRepository(AppDbContext appDbContext) : base(appDbContext)
+        public HotelRepository(AppDbContext appDbContext) : base(appDbContext)
         {
             _appDbContext = appDbContext;
         }
