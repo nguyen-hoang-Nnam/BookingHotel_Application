@@ -25,7 +25,7 @@ namespace BookingHotel_Application.BLL.Service
 
         public async Task<ResponseDTO> GetAllHotelsAsync()
         {
-            var hotels = await _unitOfWork.HotelRepository.GetAllAsync();
+            var hotels = await _unitOfWork.HotelRepository.GetAll();
             var hotelDTOs = _mapper.Map<IEnumerable<HotelDTO>>(hotels);
 
             return new ResponseDTO
@@ -37,7 +37,7 @@ namespace BookingHotel_Application.BLL.Service
 
         public async Task<ResponseDTO> GetHotelByIdAsync(int hotelid)
         {
-            var hotel = await _unitOfWork.HotelRepository.GetByIdAsync(hotelid);
+            var hotel = await _unitOfWork.HotelRepository.GetById(hotelid);
             if (hotel == null)
             {
                 return new ResponseDTO
@@ -57,7 +57,17 @@ namespace BookingHotel_Application.BLL.Service
 
         public async Task<ResponseDTO> CreateHotelAsync(CreateHotelDTO createHotelDTO)
         {
+            var country = await _unitOfWork.CountryRepository.GetByIdAsync(createHotelDTO.countryId);
+            if (country == null)
+            {
+                return new ResponseDTO
+                {
+                    IsSucceed = false,
+                    Message = "Country not found."
+                };
+            }
             var hotel = _mapper.Map<Hotel>(createHotelDTO);
+            hotel.Countries = country;
             await _unitOfWork.HotelRepository.AddAsync(hotel);
             await _unitOfWork.SaveChangeAsync();
 
@@ -79,8 +89,18 @@ namespace BookingHotel_Application.BLL.Service
                     Message = "Hotel not found"
                 };
             }
+            var country = await _unitOfWork.CountryRepository.GetByIdAsync(updateHotelDTO.countryId);
+            if (country == null)
+            {
+                return new ResponseDTO
+                {
+                    IsSucceed = false,
+                    Message = "Country not found."
+                };
+            }
 
             _mapper.Map(updateHotelDTO, hotel);
+            hotel.Countries = country;
             var result = await _unitOfWork.HotelRepository.UpdateAsync(hotel);
 
             if (!result)
@@ -109,6 +129,27 @@ namespace BookingHotel_Application.BLL.Service
             {
                 IsSucceed = true,
                 Message = "Hotel deleted successfully"
+            };
+        }
+        public async Task<ResponseDTO> GetHotelsByCountryIdAsync(int countryId)
+        {
+            var hotels = await _unitOfWork.HotelRepository.GetHotelsByCountryIdAsync(countryId);
+
+            if (!hotels.Any())
+            {
+                return new ResponseDTO
+                {
+                    IsSucceed = false,
+                    Message = "No hotels found for the given country."
+                };
+            }
+
+            var hotelDTOs = _mapper.Map<IEnumerable<HotelDTO>>(hotels);
+
+            return new ResponseDTO
+            {
+                IsSucceed = true,
+                Data = hotelDTOs
             };
         }
     }

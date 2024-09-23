@@ -36,7 +36,13 @@ namespace BookingHotel_Application.Model.Mapper
             CreateMap<Hotel, UpdateHotelDTO>() .ReverseMap();
             CreateMap<Hotel, CreateHotelDTO>().ReverseMap();
             CreateMap<Hotel, HotelDTO>()
-            .ForMember(dest => dest.countryName, opt => opt.MapFrom(src => src.Countries.countryName));
+            .ForMember(dest => dest.countryName, opt => opt.MapFrom(src => src.Countries.countryName))
+            .ForMember(dest => dest.countryId, opt => opt.MapFrom(src => src.Countries.countryId));
+            CreateMap<CreateHotelDTO, Hotel>()
+            .ForMember(dest => dest.Countries, opt => opt.MapFrom(src => new Countries { countryId = src.countryId }));
+
+            CreateMap<UpdateHotelDTO, Hotel>()
+                .ForMember(dest => dest.Countries, opt => opt.MapFrom(src => new Countries { countryId = src.countryId }));
 
             // Countries
             CreateMap<Countries, CountriesDTO>().ReverseMap();

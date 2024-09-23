@@ -49,7 +49,7 @@ namespace BookingHotel_Application.Model.Migrations
 
                     b.HasIndex("userId");
 
-                    b.ToTable("Admins");
+                    b.ToTable("Admins", (string)null);
                 });
 
             modelBuilder.Entity("BookingHotel_Application.Model.Models.Countries", b =>
@@ -66,7 +66,7 @@ namespace BookingHotel_Application.Model.Migrations
 
                     b.HasKey("countryId");
 
-                    b.ToTable("Countries");
+                    b.ToTable("Countries", (string)null);
                 });
 
             modelBuilder.Entity("BookingHotel_Application.Model.Models.Customer", b =>
@@ -93,7 +93,7 @@ namespace BookingHotel_Application.Model.Migrations
 
                     b.HasIndex("userId");
 
-                    b.ToTable("Customers");
+                    b.ToTable("Customers", (string)null);
                 });
 
             modelBuilder.Entity("BookingHotel_Application.Model.Models.Hotel", b =>
@@ -130,7 +130,7 @@ namespace BookingHotel_Application.Model.Migrations
 
                     b.HasIndex("countryId");
 
-                    b.ToTable("Hotels");
+                    b.ToTable("Hotels", (string)null);
                 });
 
             modelBuilder.Entity("BookingHotel_Application.Model.Models.Staff", b =>
@@ -160,7 +160,7 @@ namespace BookingHotel_Application.Model.Migrations
 
                     b.HasIndex("userId");
 
-                    b.ToTable("Staffs");
+                    b.ToTable("Staffs", (string)null);
                 });
 
             modelBuilder.Entity("BookingHotel_Application.Model.Models.User", b =>
@@ -196,7 +196,7 @@ namespace BookingHotel_Application.Model.Migrations
 
                     b.HasKey("userId");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("BookingHotel_Application.Model.Models.Admin", b =>
