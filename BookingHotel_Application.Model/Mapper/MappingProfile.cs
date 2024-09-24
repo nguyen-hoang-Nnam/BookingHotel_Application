@@ -61,7 +61,7 @@ namespace BookingHotel_Application.Model.Mapper
             CreateMap<Room, CreateRoomDTO>() .ReverseMap();
             CreateMap<Room, UpdateRoomDTO>() .ReverseMap();
             CreateMap<Room, RoomDTO>()
-            .ForMember(dest => dest.roomName, opt => opt.MapFrom(src => src.RoomType.roomTypeName))
+            .ForMember(dest => dest.roomName, opt => opt.MapFrom(src => src.roomName))
             .ForMember(dest => dest.roomTypeId, opt => opt.MapFrom(src => src.RoomType.roomTypeId))
             .ForMember(dest => dest.hotelId, opt => opt.MapFrom(src => src.Hotel.hotelId))
             .ForMember(dest => dest.hotelName, opt => opt.MapFrom(src => src.Hotel.hotelName))
