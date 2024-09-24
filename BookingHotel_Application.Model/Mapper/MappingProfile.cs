@@ -4,6 +4,7 @@ using BookingHotel_Application.Model.Models.DTO.Auth;
 using BookingHotel_Application.Model.Models.DTO.Countries;
 using BookingHotel_Application.Model.Models.DTO.Customer;
 using BookingHotel_Application.Model.Models.DTO.Hotel;
+using BookingHotel_Application.Model.Models.DTO.RoomType;
 using BookingHotel_Application.Model.Models.DTO.User;
 using System;
 using System.Collections.Generic;
@@ -48,6 +49,11 @@ namespace BookingHotel_Application.Model.Mapper
             CreateMap<Countries, CountriesDTO>().ReverseMap();
             CreateMap<Countries, CreateCountriesDTO>() .ReverseMap();
             CreateMap<Countries, UpdateCountriesDTO>().ReverseMap();
+
+            // Room Type
+            CreateMap<RoomType, RoomTypeDTO>() .ReverseMap();
+            CreateMap<RoomType, CreateRoomTypeDTO>() .ReverseMap();
+            CreateMap<RoomType, UpdateRoomTypeDTO>() .ReverseMap();
         }
     }
 }

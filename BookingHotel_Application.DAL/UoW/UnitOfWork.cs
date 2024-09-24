@@ -15,21 +15,24 @@ namespace BookingHotel_Application.DAL.UoW
         private readonly IUserRepository _userRepository;
         private readonly IHotelRepository _hotelRepository;
         private readonly ICountryRepository _countryRepository;
+        private readonly IRoomTypeRepository _roomTypeRepository;
         private readonly AppDbContext _dbContext;
         private bool disposed = false;
 
-        public UnitOfWork(ICustomerRepository customerRepository, AppDbContext dbContext, IUserRepository userRepository, ICountryRepository countryRepository, IHotelRepository hotelRepository)
+        public UnitOfWork(ICustomerRepository customerRepository, AppDbContext dbContext, IUserRepository userRepository, ICountryRepository countryRepository, IHotelRepository hotelRepository, IRoomTypeRepository roomTypeRepository)
         {
             _customerRepository = customerRepository;
             _dbContext = dbContext;
             _userRepository = userRepository;
             _countryRepository = countryRepository;
             _hotelRepository = hotelRepository;
+            _roomTypeRepository = roomTypeRepository;
         }
         public ICustomerRepository CustomerRepository { get { return _customerRepository; } }
         public IUserRepository UserRepository { get { return _userRepository; } }
         public IHotelRepository HotelRepository { get { return _hotelRepository; } }
         public ICountryRepository CountryRepository { get { return _countryRepository; } }
+        public IRoomTypeRepository RoomTypeRepository {  get { return _roomTypeRepository; } }
 
         public AppDbContext dbContext { get { return _dbContext; } }
 
