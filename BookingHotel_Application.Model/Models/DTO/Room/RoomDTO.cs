@@ -1,4 +1,5 @@
 ﻿using BookingHotel_Application.Model.Enum;
+using BookingHotel_Application.Model.Models.DTO.Hotel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,8 @@ namespace BookingHotel_Application.Model.Models.DTO.Room
         public int roomSize { get; set; }
         public RoomStatus roomStatus { get; set; }
         public int hotelId { get; set; }
+        public string hotelName { get; set; }
         public int roomTypeId { get; set; }
+        public string roomTypeName { get; set; }
     }
 }

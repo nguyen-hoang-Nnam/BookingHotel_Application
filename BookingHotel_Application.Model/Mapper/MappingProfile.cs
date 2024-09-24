@@ -4,6 +4,7 @@ using BookingHotel_Application.Model.Models.DTO.Auth;
 using BookingHotel_Application.Model.Models.DTO.Countries;
 using BookingHotel_Application.Model.Models.DTO.Customer;
 using BookingHotel_Application.Model.Models.DTO.Hotel;
+using BookingHotel_Application.Model.Models.DTO.Room;
 using BookingHotel_Application.Model.Models.DTO.RoomType;
 using BookingHotel_Application.Model.Models.DTO.User;
 using System;
@@ -54,6 +55,29 @@ namespace BookingHotel_Application.Model.Mapper
             CreateMap<RoomType, RoomTypeDTO>() .ReverseMap();
             CreateMap<RoomType, CreateRoomTypeDTO>() .ReverseMap();
             CreateMap<RoomType, UpdateRoomTypeDTO>() .ReverseMap();
+
+            // Room
+            CreateMap<Room, RoomDTO>().ReverseMap();
+            CreateMap<Room, CreateRoomDTO>() .ReverseMap();
+            CreateMap<Room, UpdateRoomDTO>() .ReverseMap();
+            CreateMap<Room, RoomDTO>()
+            .ForMember(dest => dest.roomName, opt => opt.MapFrom(src => src.RoomType.roomTypeName))
+            .ForMember(dest => dest.roomTypeId, opt => opt.MapFrom(src => src.RoomType.roomTypeId))
+            .ForMember(dest => dest.hotelId, opt => opt.MapFrom(src => src.Hotel.hotelId))
+            .ForMember(dest => dest.hotelName, opt => opt.MapFrom(src => src.Hotel.hotelName))
+            .ForMember(dest => dest.roomTypeName, opt => opt.MapFrom(src => src.RoomType.roomTypeName));
+
+            CreateMap<Hotel, HotelWithRoomsDTO>()
+            .ForMember(dest => dest.countryName, opt => opt.MapFrom(src => src.Countries.countryName))
+            .ForMember(dest => dest.countryId, opt => opt.MapFrom(src => src.Countries.countryId));
+
+            CreateMap<CreateRoomDTO, Room>()
+                .ForMember(dest => dest.RoomType, opt => opt.MapFrom(src => new RoomType { roomTypeId = src.roomTypeId }))
+                .ForMember(dest => dest.Hotel, opt => opt.MapFrom(src => new Hotel { hotelId = src.hotelId }));
+            CreateMap<UpdateRoomDTO, Room>()
+                .ForMember(dest => dest.RoomType, opt => opt.MapFrom(src => new RoomType { roomTypeId = src.roomTypeId }))
+                .ForMember(dest => dest.Hotel, opt => opt.MapFrom(src => new Hotel { hotelId = src.hotelId }));
+
         }
     }
 }
