@@ -18,6 +18,8 @@ namespace BookingHotel_Application.Model.Data
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Countries> Countries { get; set; }
         public DbSet<Hotel> Hotels { get; set; }
+        public DbSet<RoomType> RoomTypes { get; set; }
+        public DbSet<Room> Rooms { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -38,8 +40,19 @@ namespace BookingHotel_Application.Model.Data
 
             modelBuilder.Entity<Countries>()
                 .HasKey(c => c.countryId);
+
             modelBuilder.Entity<Hotel>()
                 .HasKey(h => h.hotelId);
+
+            modelBuilder.Entity<RoomType>()
+                .HasKey(r => r.roomTypeId);
+
+            modelBuilder.Entity<Room>()
+                .HasKey(r => r.roomId);
+
+            modelBuilder.Entity<Room>()
+                .Property(r => r.pricePerDay)
+                .HasColumnType("decimal(18,2)");
         }
     }
 }
