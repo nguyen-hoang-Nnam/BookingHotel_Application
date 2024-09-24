@@ -12,5 +12,6 @@ namespace BookingHotel_Application.Model.Models
         [Key]
         public int roomTypeId {  get; set; }
         public string roomTypeName { get; set; }
+        public ICollection<Room> Rooms { get; set; } = new List<Room>();
     }
 }
