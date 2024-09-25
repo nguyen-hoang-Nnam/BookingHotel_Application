@@ -78,5 +78,13 @@ namespace BookingHotel_Application.Controllers
             }
             return Ok(result.Data);
         }
+
+        [HttpGet]
+        [Route("GetHotelDetails/{hotelId:int}")]
+        public async Task<IActionResult> GetHotelDetails(int hotelId)
+        {
+            var response = await _hotelService.GetHotelDetailsAsync(hotelId);
+            return Ok(response);
+        }
     }
 }

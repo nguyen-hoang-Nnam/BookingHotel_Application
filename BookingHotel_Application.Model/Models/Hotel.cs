@@ -19,5 +19,7 @@ namespace BookingHotel_Application.Model.Models
         public int Ratings { get; set; }
         [ForeignKey("countryId")]
         public Countries? Countries { get; set; }
+        public ICollection<Room> Rooms { get; set; }
+        public ICollection<Comment> Comments { get; set; }
     }
 }

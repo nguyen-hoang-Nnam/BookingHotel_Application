@@ -12,5 +12,6 @@ namespace BookingHotel_Application.DAL.Repository.IRepository
         Task<IEnumerable<Hotel>> GetAll();
         Task<Hotel?> GetById(int hotelid);
         Task<IEnumerable<Hotel>> GetHotelsByCountryIdAsync(int countryId);
+        Task<Hotel> GetHotelWithRoomsAndCommentsAsync(int hotelId);
     }
 }

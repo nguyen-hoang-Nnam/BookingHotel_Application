@@ -35,5 +35,15 @@ namespace BookingHotel_Application.DAL.Repository
                 .Where(hotel => hotel.Countries != null && hotel.Countries.countryId == countryId)
                 .ToListAsync();
         }
+        public async Task<Hotel> GetHotelWithRoomsAndCommentsAsync(int hotelId)
+        {
+            return await _appDbContext.Hotels
+                .Include(h => h.Countries)
+                .Include(h => h.Rooms)
+                    .ThenInclude(r => r.RoomType)
+                .Include(h => h.Comments)
+                    .ThenInclude(c => c.User)
+                .FirstOrDefaultAsync(h => h.hotelId == hotelId);
+        }
     }
 }
