@@ -15,6 +15,6 @@ namespace BookingHotel_Application.Model.Models.DTO.Comment
         public int hotelId { get; set; }
         public string hotelName { get; set; }
         public string userId { get; set; }
-        public string userName { get; set; }
+        public string Email { get; set; }
     }
 }

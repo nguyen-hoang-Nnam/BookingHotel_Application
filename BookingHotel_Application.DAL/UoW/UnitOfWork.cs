@@ -17,10 +17,11 @@ namespace BookingHotel_Application.DAL.UoW
         private readonly ICountryRepository _countryRepository;
         private readonly IRoomTypeRepository _roomTypeRepository;
         private readonly IRoomRepository _roomRepository;
+        private readonly ICommentRepository _commentRepository;
         private readonly AppDbContext _dbContext;
         private bool disposed = false;
 
-        public UnitOfWork(ICustomerRepository customerRepository, AppDbContext dbContext, IUserRepository userRepository, ICountryRepository countryRepository, IHotelRepository hotelRepository, IRoomTypeRepository roomTypeRepository, IRoomRepository roomRepository)
+        public UnitOfWork(ICustomerRepository customerRepository, AppDbContext dbContext, IUserRepository userRepository, ICountryRepository countryRepository, IHotelRepository hotelRepository, IRoomTypeRepository roomTypeRepository, IRoomRepository roomRepository, ICommentRepository commentRepository)
         {
             _customerRepository = customerRepository;
             _dbContext = dbContext;
@@ -29,6 +30,7 @@ namespace BookingHotel_Application.DAL.UoW
             _hotelRepository = hotelRepository;
             _roomTypeRepository = roomTypeRepository;
             _roomRepository = roomRepository;
+            _commentRepository = commentRepository;
         }
         public ICustomerRepository CustomerRepository { get { return _customerRepository; } }
         public IUserRepository UserRepository { get { return _userRepository; } }
@@ -36,6 +38,7 @@ namespace BookingHotel_Application.DAL.UoW
         public ICountryRepository CountryRepository { get { return _countryRepository; } }
         public IRoomTypeRepository RoomTypeRepository {  get { return _roomTypeRepository; } }
         public IRoomRepository RoomRepository {  get { return _roomRepository; } }
+        public ICommentRepository CommentRepository { get { return _commentRepository; } }
 
 
         public AppDbContext dbContext { get { return _dbContext; } }
