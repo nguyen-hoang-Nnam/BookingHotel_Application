@@ -20,7 +20,7 @@ namespace BookingHotel_Application.Model.Data
         public DbSet<Hotel> Hotels { get; set; }
         public DbSet<RoomType> RoomTypes { get; set; }
         public DbSet<Room> Rooms { get; set; }
-
+        public DbSet<Comment> Comments { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()

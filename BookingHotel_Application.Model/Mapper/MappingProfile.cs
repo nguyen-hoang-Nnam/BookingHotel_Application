@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BookingHotel_Application.Model.Models;
 using BookingHotel_Application.Model.Models.DTO.Auth;
+using BookingHotel_Application.Model.Models.DTO.Comment;
 using BookingHotel_Application.Model.Models.DTO.Countries;
 using BookingHotel_Application.Model.Models.DTO.Customer;
 using BookingHotel_Application.Model.Models.DTO.Hotel;
@@ -77,6 +78,17 @@ namespace BookingHotel_Application.Model.Mapper
             CreateMap<UpdateRoomDTO, Room>()
                 .ForMember(dest => dest.RoomType, opt => opt.MapFrom(src => new RoomType { roomTypeId = src.roomTypeId }))
                 .ForMember(dest => dest.Hotel, opt => opt.MapFrom(src => new Hotel { hotelId = src.hotelId }));
+
+            //Comment
+            CreateMap<Comment, CommentDTO>()
+            .ForMember(dest => dest.hotelName, opt => opt.MapFrom(src => src.Hotel.hotelName))
+            .ForMember(dest => dest.userName, opt => opt.MapFrom(src => src.User.userName));
+
+            CreateMap<CreateCommentDTO, Comment>();
+
+            CreateMap<UpdateCommentDTO, Comment>()
+                .ForMember(dest => dest.commentId, opt => opt.Ignore())
+                .ForMember(dest => dest.commentText, opt => opt.MapFrom(src => src.commentText));
 
         }
     }
