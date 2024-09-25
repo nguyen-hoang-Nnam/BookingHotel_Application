@@ -152,5 +152,29 @@ namespace BookingHotel_Application.BLL.Service
                 Data = hotelDTOs
             };
         }
+        public async Task<ResponseDTO> GetHotelDetailsAsync(int hotelId)
+        {
+            var hotel = await _unitOfWork.HotelRepository.GetHotelWithRoomsAndCommentsAsync(hotelId);
+
+            if (hotel == null)
+            {
+                return new ResponseDTO
+                {
+                    IsSucceed = false,
+                    Message = "Hotel not found",
+                    Data = null
+                };
+            }
+
+            var hotelWithDetailsDTO = _mapper.Map<HotelWithDetailDTO>(hotel);
+
+            return new ResponseDTO
+            {
+                IsSucceed = true,
+                Message = "Hotel details retrieved successfully",
+                Data = hotelWithDetailsDTO
+            };
+        }
+
     }
 }
