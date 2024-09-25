@@ -81,8 +81,10 @@ namespace BookingHotel_Application.Model.Mapper
 
             //Comment
             CreateMap<Comment, CommentDTO>()
-            .ForMember(dest => dest.hotelName, opt => opt.MapFrom(src => src.Hotel.hotelName))
-            .ForMember(dest => dest.userName, opt => opt.MapFrom(src => src.User.userName));
+                .ForMember(dest => dest.hotelId, opt => opt.MapFrom(src => src.Hotel.hotelId))
+                .ForMember(dest => dest.hotelName, opt => opt.MapFrom(src => src.Hotel.hotelName))
+                .ForMember(dest => dest.userId, opt => opt.MapFrom(src => src.User.userId))
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.User.Email));
 
             CreateMap<CreateCommentDTO, Comment>();
 
