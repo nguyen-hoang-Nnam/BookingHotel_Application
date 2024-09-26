@@ -30,9 +30,11 @@ namespace BookingHotel_Application.Model.Helper
             {
                 Subject = new ClaimsIdentity(new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.userId),
+                new Claim(JwtRegisteredClaimNames.NameId, user.userId),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim(ClaimTypes.Name, user.userName),
+                new Claim(ClaimTypes.Role, user.Role.ToString()),
+                new Claim(ClaimTypes.MobilePhone, user.phoneNumber),
                 // Add more claims as needed
             }),
                 Expires = DateTime.UtcNow.AddHours(1),
