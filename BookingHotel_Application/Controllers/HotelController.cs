@@ -1,4 +1,5 @@
 ﻿using BookingHotel_Application.BLL.Service.IService;
+using BookingHotel_Application.Model.Helper;
 using BookingHotel_Application.Model.Models.DTO.Hotel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -86,5 +87,18 @@ namespace BookingHotel_Application.Controllers
             var response = await _hotelService.GetHotelDetailsAsync(hotelId);
             return Ok(response);
         }
+
+        [HttpGet("GetPaginatedHotels")]
+        public async Task<IActionResult> GetPaginatedHotels([FromQuery] PaginationParameter paginationParameter)
+        {
+            var result = await _hotelService.GetPaginatedHotelsAsync(paginationParameter);
+
+            if (!result.IsSucceed)
+                return NotFound(result);
+
+            return Ok(result);
+        }
+
+
     }
 }
