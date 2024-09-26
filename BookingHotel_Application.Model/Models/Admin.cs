@@ -16,6 +16,7 @@ namespace BookingHotel_Application.Model.Models
         public string firstName { get; set; }
         public string lastName { get; set; }
         public string Address { get; set; }
+        public string userId { get; set; }
         [ForeignKey("userId")]
         public User? User { get; set; }
     }

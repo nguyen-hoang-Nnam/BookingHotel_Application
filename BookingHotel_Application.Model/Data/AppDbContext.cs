@@ -1,10 +1,13 @@
-﻿using BookingHotel_Application.Model.Models;
+﻿using BookingHotel_Application.Model.Enum;
+using BookingHotel_Application.Model.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security.Cryptography;
+using BCrypt.Net;
 
 namespace BookingHotel_Application.Model.Data
 {
@@ -23,6 +26,33 @@ namespace BookingHotel_Application.Model.Data
         public DbSet<Comment> Comments { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            // Seed User
+            var adminUser = new User
+            {
+                userId = Guid.NewGuid().ToString(),
+                userName = "admin",
+                Email = "admin@gmail.com",
+                passwordHash = HashPassword("admin"),
+                phoneNumber = "1234567890",
+                Role = UserRole.Admin,
+                Status = UserStatus.Active
+            };
+
+            modelBuilder.Entity<User>().HasData(adminUser);
+
+            // Seed Admin using the User's ID
+            modelBuilder.Entity<Admin>().HasData(
+                new Admin
+                {
+                    adminId = 1,
+                    firstName = "Admin",
+                    lastName = "User",
+                    Address = "Admin Address",
+                    userId = adminUser.userId
+                }
+            );
+
             modelBuilder.Entity<User>()
                 .HasKey(u => u.userId);
             modelBuilder.Entity<User>()
@@ -53,6 +83,11 @@ namespace BookingHotel_Application.Model.Data
             modelBuilder.Entity<Room>()
                 .Property(r => r.pricePerDay)
                 .HasColumnType("decimal(18,2)");
+        }
+
+        private string HashPassword(string password)
+        {
+            return BCrypt.Net.BCrypt.HashPassword(password);
         }
     }
 }

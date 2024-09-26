@@ -4,6 +4,7 @@ using BookingHotel_Application.Model.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingHotel_Application.Model.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240926044934_admin_data")]
+    partial class admin_data
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,7 +62,7 @@ namespace BookingHotel_Application.Model.Migrations
                             Address = "Admin Address",
                             firstName = "Admin",
                             lastName = "User",
-                            userId = "a2036d0b-3631-4eb3-942b-807e5aee4409"
+                            userId = "e4907243-d882-4b44-9cb5-c7534f7d1db7"
                         });
                 });
 
@@ -309,11 +312,11 @@ namespace BookingHotel_Application.Model.Migrations
                     b.HasData(
                         new
                         {
-                            userId = "a2036d0b-3631-4eb3-942b-807e5aee4409",
+                            userId = "e4907243-d882-4b44-9cb5-c7534f7d1db7",
                             Email = "admin@gmail.com",
                             Role = 1,
                             Status = 1,
-                            passwordHash = "$2a$11$FIE.tyi9xMhq2K5YaA4PuueIyvzLUT9IWVdCrDfjpAVlkGJw8CbYS",
+                            passwordHash = "jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=",
                             phoneNumber = "1234567890",
                             refreshToken = "",
                             userName = "admin"
