@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BookingHotel_Application.Model.Helper;
 
 namespace BookingHotel_Application.BLL.Service
 {
@@ -176,5 +177,43 @@ namespace BookingHotel_Application.BLL.Service
             };
         }
 
+        public async Task<ResponseDTO> GetPaginatedHotelsAsync(PaginationParameter paginationParameter)
+        {
+            var paginatedHotels = _unitOfWork.HotelRepository.GetFilter(
+                pageIndex: paginationParameter.Page,
+                pageSize: paginationParameter.Limit,
+                orderBy: query => query.OrderBy(h => h.hotelId)
+            );
+
+            if (paginatedHotels == null || !paginatedHotels.Items.Any())
+            {
+                return new ResponseDTO
+                {
+                    IsSucceed = false,
+                    Message = "No hotels found",
+                    Data = null
+                };
+            }
+
+            // Map hotel entities to DTOs
+            var paginatedHotelDTOs = _mapper.Map<List<PaginationHotelDTO>>(paginatedHotels.Items);
+
+            var paginationMetadata = new
+            {
+                paginatedHotels.PageIndex,
+                paginatedHotels.PageSize,
+                paginatedHotels.TotalItemsCount,
+                paginatedHotels.TotalPagesCount,
+                paginatedHotels.Next,
+                paginatedHotels.Previous
+            };
+
+            return new ResponseDTO
+            {
+                IsSucceed = true,
+                Message = "Hotels retrieved successfully",
+                Data = new { hotels = paginatedHotelDTOs, pagination = paginationMetadata }
+            };
+        }
     }
 }

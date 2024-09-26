@@ -3,6 +3,7 @@ using BookingHotel_Application.Model.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,6 +19,13 @@ namespace BookingHotel_Application.DAL.Repository.IRepository
         Task DeleteAsync(int id);
         Task DeleteAsync(string id);
         Task<T> GetByIdAsync(string id);
-        Task<Pagination<T>> ToPagination(PaginationParameter paginationParameter);
+        Pagination<T> GetFilter(
+            Expression<Func<T, bool>>? filter = null,
+            Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
+            string includeProperties = "",
+            int? pageIndex = null,
+            int? pageSize = null,
+            string? foreignKey = null,
+            object? foreignKeyId = null);
     }
 }

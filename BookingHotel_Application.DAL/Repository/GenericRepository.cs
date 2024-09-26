@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -89,16 +90,61 @@ namespace BookingHotel_Application.DAL.Repository
 
 
         // PAGINATION
-        public async Task<Pagination<T>> ToPagination(PaginationParameter paginationParameter)
+        public virtual Pagination<T> GetFilter(
+            Expression<Func<T, bool>>? filter = null,
+            Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
+            string includeProperties = "",
+            int? pageIndex = null,
+            int? pageSize = null,
+            string? foreignKey = null,
+            object? foreignKeyId = null)
         {
-            var itemCount = await _dbSet.CountAsync();
-            var items = await _dbSet.Skip((paginationParameter.Page - 1) * paginationParameter.Limit)
-                                    .Take(paginationParameter.Limit)
-                                    .AsNoTracking()
-                                    .ToListAsync();
-            var result = new Pagination<T>(items, itemCount, paginationParameter.Page, paginationParameter.Limit);
+            IQueryable<T> query = _dbSet;
 
-            return result;
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includeProperty);
+            }
+
+            var itemCount = query.Count();
+
+            if (orderBy != null)
+            {
+                query = orderBy(query);
+            }
+
+            if (!string.IsNullOrEmpty(foreignKey) && foreignKeyId != null)
+            {
+                if (foreignKeyId is Guid guidValue)
+                {
+                    query = query.Where(e => EF.Property<Guid>(e, foreignKey) == guidValue);
+                }
+                else if (foreignKeyId is string stringValue)
+                {
+                    query = query.Where(e => EF.Property<string>(e, foreignKey) == stringValue);
+                }
+                else
+                {
+                    throw new ArgumentException("Unsupported foreign key type");
+                }
+            }
+
+            if (pageIndex.HasValue && pageSize.HasValue)
+            {
+                int validPageIndex = pageIndex.Value > 0 ? pageIndex.Value - 1 : 0;
+                int validPageSize = pageSize.Value > 0 ? pageSize.Value : 10;
+
+                query = query.Skip(validPageIndex * validPageSize).Take(validPageSize);
+            }
+
+            var items = query.ToList();
+            return new Pagination<T>(items, itemCount, pageIndex ?? 0, pageSize ?? 10);
         }
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using BookingHotel_Application.Model.Models.DTO;
+﻿using BookingHotel_Application.Model.Helper;
+using BookingHotel_Application.Model.Models.DTO;
 using BookingHotel_Application.Model.Models.DTO.Hotel;
 using System;
 using System.Collections.Generic;
@@ -17,5 +18,6 @@ namespace BookingHotel_Application.BLL.Service.IService
         Task<ResponseDTO> DeleteHotelAsync(int hotelid);
         Task<ResponseDTO> GetHotelsByCountryIdAsync(int countryId);
         Task<ResponseDTO> GetHotelDetailsAsync(int hotelId);
+        Task<ResponseDTO> GetPaginatedHotelsAsync(PaginationParameter paginationParameter);
     }
 }
