@@ -101,7 +101,12 @@ namespace BookingHotel_Application.Model.Mapper
                 .ForMember(dest => dest.commentText, opt => opt.MapFrom(src => src.commentText));
 
             // Booking
-            CreateMap<Booking, BookingDTO>().ReverseMap();
+            CreateMap<Booking, BookingDTO>()
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.User.Email))
+                .ForMember(dest => dest.phoneNumber, opt => opt.MapFrom(src => src.User.phoneNumber))
+                .ForMember(dest => dest.roomName, opt => opt.MapFrom(src => src.Room.roomName))
+                .ForMember(dest => dest.pricePerDay, opt => opt.MapFrom(src => src.Room.pricePerDay))
+                .ForMember(dest => dest.roomSize, opt => opt.MapFrom(src => src.Room.roomSize));
             CreateMap<Booking, CreateBookingDTO>().ReverseMap();
             CreateMap<Booking, UpdateBookingDTO>().ReverseMap();
 
