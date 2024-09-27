@@ -17,6 +17,7 @@ namespace BookingHotel_Application.DAL.UoW.IUoW
         IRoomTypeRepository RoomTypeRepository { get; }
         IRoomRepository RoomRepository { get; }
         ICommentRepository CommentRepository { get; }
+        IBookingRepository BookingRepository { get; }
         AppDbContext dbContext { get; }
         public Task<int> SaveChangeAsync();
     }
