@@ -24,6 +24,7 @@ namespace BookingHotel_Application.Model.Data
         public DbSet<RoomType> RoomTypes { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
@@ -82,6 +83,13 @@ namespace BookingHotel_Application.Model.Data
 
             modelBuilder.Entity<Room>()
                 .Property(r => r.pricePerDay)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<Booking>()
+                .HasKey(b => b.bookingId);
+
+            modelBuilder.Entity<Booking>()
+                .Property(b => b.totalPrice)
                 .HasColumnType("decimal(18,2)");
         }
 
