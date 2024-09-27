@@ -20,7 +20,7 @@ namespace BookingHotel_Application.DAL.Repository
         }
         public async Task<IEnumerable<Room>> GetAll()
         {
-            return await _appDbContext.Rooms.Include(h => h.RoomType).ToListAsync();
+            return await _appDbContext.Rooms.Include(h => h.RoomType).Include(room => room.Hotel).ToListAsync();
         }
         public async Task<Room?> GetById(int id)
         {
