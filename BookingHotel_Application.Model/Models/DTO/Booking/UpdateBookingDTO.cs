@@ -9,6 +9,7 @@ namespace BookingHotel_Application.Model.Models.DTO.Booking
 {
     public class UpdateBookingDTO
     {
+        public int bookingId { get; set; }
         public DateTime bookingDate { get; set; }
         public DateTime checkIn { get; set; }
         public DateTime checkOut { get; set; }
