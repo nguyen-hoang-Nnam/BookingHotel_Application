@@ -28,7 +28,7 @@ namespace BookingHotel_Application.BLL.Service
 
         public async Task<ResponseDTO> GetAllBookingsAsync()
         {
-            var bookings = await _unitOfWork.BookingRepository.GetAllAsync();
+            var bookings = await _unitOfWork.BookingRepository.GetAll();
             var data = _mapper.Map<IEnumerable<BookingDTO>>(bookings);
 
             return new ResponseDTO
@@ -40,7 +40,7 @@ namespace BookingHotel_Application.BLL.Service
         }
         public async Task<ResponseDTO> GetBookingByIdAsync(int id)
         {
-            var booking = await _unitOfWork.BookingRepository.GetByIdAsync(id);
+            var booking = await _unitOfWork.BookingRepository.GetById(id);
             if (booking == null)
             {
                 return new ResponseDTO
@@ -108,6 +108,26 @@ namespace BookingHotel_Application.BLL.Service
             await _unitOfWork.SaveChangeAsync();
 
             return new ResponseDTO { IsSucceed = true, Message = "Booking deleted successfully" };
+        }
+
+        public async Task<ResponseDTO> GetBookingsByUserId(string userId)
+        {
+            var response = new ResponseDTO();
+
+            var bookings = await _unitOfWork.BookingRepository.GetBookingsByUserIdAsync(userId);
+
+            if (!bookings.Any())
+            {
+                response.Message = "No bookings found for the given user.";
+                return response;
+            }
+
+            var bookingDTOs = _mapper.Map<IEnumerable<BookingDTO>>(bookings);
+
+            response.IsSucceed = true;
+            response.Data = bookingDTOs;
+
+            return response;
         }
     }
 }

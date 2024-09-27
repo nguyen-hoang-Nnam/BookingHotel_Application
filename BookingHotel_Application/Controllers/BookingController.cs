@@ -73,5 +73,15 @@ namespace BookingHotel_Application.Controllers
             }
             return BadRequest(result);
         }
+
+        // GetBookingById
+        [HttpGet]
+        [Route("GetBookingByUserId/{id}")]
+        public async Task<IActionResult> GetBookingByUserId(string id)
+        {
+            var result = await _bookingService.GetBookingsByUserId(id);
+            if (!result.IsSucceed) return NotFound(result);
+            return Ok(result);
+        }
     }
 }
