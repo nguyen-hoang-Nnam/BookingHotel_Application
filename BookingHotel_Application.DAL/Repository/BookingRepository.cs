@@ -65,6 +65,10 @@ namespace BookingHotel_Application.DAL.Repository
                 })
                 .ToListAsync();
         }
+        public void Update(Booking booking)
+        {
+            _appDbContext.Bookings.Update(booking);
+        }
 
     }
 }

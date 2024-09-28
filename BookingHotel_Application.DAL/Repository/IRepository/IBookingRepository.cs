@@ -12,5 +12,6 @@ namespace BookingHotel_Application.DAL.Repository.IRepository
         Task<IEnumerable<Booking>> GetAll();
         Task<Booking> GetById(int id);
         Task<IEnumerable<Booking>> GetBookingsByUserIdAsync(string userId);
+        void Update(Booking booking);
     }
 }

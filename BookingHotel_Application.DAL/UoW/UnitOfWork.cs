@@ -19,10 +19,11 @@ namespace BookingHotel_Application.DAL.UoW
         private readonly IRoomRepository _roomRepository;
         private readonly ICommentRepository _commentRepository;
         private readonly IBookingRepository _bookingRepository;
+        private readonly IPaymentRepository paymentRepository;
         private readonly AppDbContext _dbContext;
         private bool disposed = false;
 
-        public UnitOfWork(ICustomerRepository customerRepository, AppDbContext dbContext, IUserRepository userRepository, ICountryRepository countryRepository, IHotelRepository hotelRepository, IRoomTypeRepository roomTypeRepository, IRoomRepository roomRepository, ICommentRepository commentRepository, IBookingRepository bookingRepository)
+        public UnitOfWork(ICustomerRepository customerRepository, AppDbContext dbContext, IUserRepository userRepository, ICountryRepository countryRepository, IHotelRepository hotelRepository, IRoomTypeRepository roomTypeRepository, IRoomRepository roomRepository, ICommentRepository commentRepository, IBookingRepository bookingRepository, IPaymentRepository paymentRepository)
         {
             _customerRepository = customerRepository;
             _dbContext = dbContext;
@@ -33,6 +34,7 @@ namespace BookingHotel_Application.DAL.UoW
             _roomRepository = roomRepository;
             _commentRepository = commentRepository;
             _bookingRepository = bookingRepository;
+            this.paymentRepository = paymentRepository;
         }
         public ICustomerRepository CustomerRepository { get { return _customerRepository; } }
         public IUserRepository UserRepository { get { return _userRepository; } }
@@ -43,6 +45,8 @@ namespace BookingHotel_Application.DAL.UoW
         public ICommentRepository CommentRepository { get { return _commentRepository; } }
 
         public IBookingRepository BookingRepository {  get { return _bookingRepository; } }
+
+        public IPaymentRepository PaymentRepository { get { return  paymentRepository; } }
         public AppDbContext dbContext { get { return _dbContext; } }
 
         protected virtual void Dispose(bool disposing)
