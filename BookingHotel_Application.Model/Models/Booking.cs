@@ -24,6 +24,6 @@ namespace BookingHotel_Application.Model.Models
         public int roomId { get; set; }
         [ForeignKey("roomId")]
         public Room? Room { get; set; }
-        public Payment? Payment { get; set; }
+        public string PaymentLink { get; set; }
     }
 }
