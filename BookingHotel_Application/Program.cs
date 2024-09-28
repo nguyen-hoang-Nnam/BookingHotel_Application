@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System;
+using Net.payOS;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +30,17 @@ builder.Services.AddDbContext<AppDbContext>(option =>
     option.UseSqlServer(connectionString);
 });
 
+// PayOS
+builder.Services.AddScoped<PayOS>(provider =>
+{
+    // You can retrieve these values from appsettings.json or environment variables
+    string clientId = builder.Configuration["PayOS:ClientId"];
+    string apiKey = builder.Configuration["PayOS:ApiKey"];
+    string checksumKey = builder.Configuration["PayOS:ChecksumKey"];
+
+    return new PayOS(clientId, apiKey, checksumKey);
+});
+
 
 // Inject app Dependency Injection
 builder.Services.AddScoped<AppDbContext>();
@@ -43,6 +55,7 @@ builder.Services.AddScoped<IRoomTypeRepository, RoomTypeRepository>();
 builder.Services.AddScoped<IRoomRepository, RoomRepository>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
@@ -54,6 +67,7 @@ builder.Services.AddScoped<IRoomTypeService, RoomTypeService>();
 builder.Services.AddScoped<IRoomService, RoomService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 

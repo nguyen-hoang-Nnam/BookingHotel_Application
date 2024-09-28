@@ -6,6 +6,7 @@ using BookingHotel_Application.Model.Models.DTO.Comment;
 using BookingHotel_Application.Model.Models.DTO.Countries;
 using BookingHotel_Application.Model.Models.DTO.Customer;
 using BookingHotel_Application.Model.Models.DTO.Hotel;
+using BookingHotel_Application.Model.Models.DTO.Payment;
 using BookingHotel_Application.Model.Models.DTO.Room;
 using BookingHotel_Application.Model.Models.DTO.RoomType;
 using BookingHotel_Application.Model.Models.DTO.User;
@@ -109,6 +110,9 @@ namespace BookingHotel_Application.Model.Mapper
                 .ForMember(dest => dest.roomSize, opt => opt.MapFrom(src => src.Room.roomSize));
             CreateMap<Booking, CreateBookingDTO>().ReverseMap();
             CreateMap<Booking, UpdateBookingDTO>().ReverseMap();
+
+            // Payment
+            CreateMap<Payment, PaymentDTO>().ReverseMap();
 
 
         }
