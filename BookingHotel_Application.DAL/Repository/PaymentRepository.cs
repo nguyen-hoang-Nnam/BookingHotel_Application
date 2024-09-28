@@ -23,5 +23,10 @@ namespace BookingHotel_Application.DAL.Repository
         {
             return await _appDbContext.Payments.FirstOrDefaultAsync(p => p.transactionId == transactionId);
         }
+
+        public void Update(Payment payment)
+        {
+            _appDbContext.Payments.Update(payment);
+        }
     }
 }

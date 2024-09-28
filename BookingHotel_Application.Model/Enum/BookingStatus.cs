@@ -9,6 +9,7 @@ namespace BookingHotel_Application.Model.Enum
     public enum BookingStatus
     {
         Cancel,
+        Pending,
         Booked
     }
 }
