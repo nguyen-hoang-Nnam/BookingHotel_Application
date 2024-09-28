@@ -18,12 +18,14 @@ namespace BookingHotel_Application.BLL.Service
     public class BookingService : IBookingService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IPaymentService _paymentService;
         private readonly IMapper _mapper;
 
-        public BookingService(IMapper mapper, IUnitOfWork unitOfWork)
+        public BookingService(IMapper mapper, IUnitOfWork unitOfWork, IPaymentService paymentService)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _paymentService = paymentService;
         }
 
         public async Task<ResponseDTO> GetAllBookingsAsync()
@@ -74,17 +76,62 @@ namespace BookingHotel_Application.BLL.Service
 
             var booking = _mapper.Map<Booking>(createBookingDTO);
             booking.bookingDate = DateTime.UtcNow;
-            booking.bookingStatus = Model.Enum.BookingStatus.Booked;
+            booking.bookingStatus = Model.Enum.BookingStatus.Pending;
             booking.totalPrice = totalPrice;
             booking.Room = room;
             booking.User = user;
 
+            // Add booking to database
             await _unitOfWork.BookingRepository.AddAsync(booking);
             await _unitOfWork.SaveChangeAsync();
 
-            var bookingDTO = _mapper.Map<BookingDTO>(booking);
+            booking.PaymentLink = string.Empty;
 
-            return new ResponseDTO { IsSucceed = true, Message = "Booking added successfully", Data = bookingDTO };
+            // Create a payment link
+            ResponseDTO paymentResponse;
+            try
+            {
+                paymentResponse = await _paymentService.CreatePaymentLink(booking, totalPrice);
+
+                if (!paymentResponse.IsSucceed)
+                {
+                    return new ResponseDTO { IsSucceed = false, Message = paymentResponse.Message };
+                }
+
+                // Handle paymentResponse.Data correctly
+                if (paymentResponse.Data is not null)
+                {
+                    // Extract the paymentUrl from the anonymous object returned by CreatePaymentLink
+                    var paymentData = paymentResponse.Data as dynamic;
+                    booking.PaymentLink = paymentData?.paymentUrl ?? string.Empty;  // Correctly assign paymentUrl
+                }
+
+                // Update booking with payment link
+                _unitOfWork.BookingRepository.Update(booking);
+                await _unitOfWork.SaveChangeAsync();
+            }
+            catch (Exception ex)
+            {
+                return new ResponseDTO { IsSucceed = false, Message = "Failed to create payment link: " + ex.Message };
+            }
+
+            // Return a custom object with the necessary booking and payment information
+            var bookingResponse = new
+            {
+                booking.bookingId,
+                booking.bookingDate,
+                booking.checkIn,
+                booking.checkOut,
+                booking.totalPrice,
+                booking.PaymentLink
+            };
+
+            return new ResponseDTO
+            {
+                IsSucceed = true,
+                Message = "Booking created successfully",
+                Data = bookingResponse  // Return booking and payment details as part of the response
+            };
         }
 
         public async Task<ResponseDTO> UpdateBookingAsync(UpdateBookingDTO updateBookingDTO)

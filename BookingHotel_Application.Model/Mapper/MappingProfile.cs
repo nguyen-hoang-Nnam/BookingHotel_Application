@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BookingHotel_Application.Model.Enum;
 using BookingHotel_Application.Model.Models;
 using BookingHotel_Application.Model.Models.DTO.Auth;
 using BookingHotel_Application.Model.Models.DTO.Booking;
@@ -109,6 +110,14 @@ namespace BookingHotel_Application.Model.Mapper
                 .ForMember(dest => dest.pricePerDay, opt => opt.MapFrom(src => src.Room.pricePerDay))
                 .ForMember(dest => dest.roomSize, opt => opt.MapFrom(src => src.Room.roomSize));
             CreateMap<Booking, CreateBookingDTO>().ReverseMap();
+            /*.ForMember(dest => dest.PaymentLink, opt => opt.MapFrom(src => src.PaymentLink));*/
+
+            CreateMap<CreateBookingDTO, Booking>()
+            .ForMember(dest => dest.bookingId, opt => opt.Ignore()) // Ignore bookingId
+            .ForMember(dest => dest.bookingDate, opt => opt.MapFrom(src => DateTime.UtcNow)) // Set bookingDate from current time
+            .ForMember(dest => dest.totalPrice, opt => opt.Ignore()) // Ignore totalPrice and calculate it in service
+            .ForMember(dest => dest.bookingStatus, opt => opt.MapFrom(src => BookingStatus.Booked)) // Set default status
+            .ReverseMap();
             CreateMap<Booking, UpdateBookingDTO>().ReverseMap();
 
             // Payment

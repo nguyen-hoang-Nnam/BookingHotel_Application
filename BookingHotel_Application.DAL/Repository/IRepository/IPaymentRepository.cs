@@ -10,5 +10,6 @@ namespace BookingHotel_Application.DAL.Repository.IRepository
     public interface IPaymentRepository : IGenericRepository<Payment>
     {
         Task<Payment> GetByTransactionId(string transactionId);
+        void Update(Payment payment);
     }
 }

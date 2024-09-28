@@ -36,10 +36,14 @@ namespace BookingHotel_Application.BLL.Service
                 List<ItemData> items = new List<ItemData> { item };
 
                 // Create payment data
-                PaymentData paymentData = new PaymentData(orderCode, (int)totalPrice, "Payment for booking", items, "https://www.facebook.com/FPTU.HCM", "https://github.com/nguyen-hoang-Nnam/BookingHotel_Application");
+                PaymentData paymentData = new PaymentData(orderCode, (int)totalPrice, "Payment for booking", items, "https://www.facebook.com/FPTU.HCM", "https://fap.fpt.edu.vn/");
 
                 // Call PayOS to generate the payment link
                 CreatePaymentResult paymentResult = await _payOS.createPaymentLink(paymentData);
+                if (paymentResult == null)
+                {
+                    throw new Exception("Payment result is null.");
+                }
 
                 // Store initial payment details in the database
                 var payment = new Payment
@@ -53,11 +57,23 @@ namespace BookingHotel_Application.BLL.Service
                 await _unitOfWork.PaymentRepository.AddAsync(payment);
                 await _unitOfWork.SaveChangeAsync();
 
+                // Create a DTO to return all necessary booking and payment information
+                var paymentBookingResponse = new
+                {
+                    bookingId = booking.bookingId,
+                    roomName = booking.Room.roomName,
+                    checkIn = booking.checkIn,
+                    checkOut = booking.checkOut,
+                    totalPrice = totalPrice,
+                    paymentUrl = paymentResult.checkoutUrl  // This is the actual payment link
+                };
+
+
                 return new ResponseDTO
                 {
                     IsSucceed = true,
-                    Message = "Payment link created successfully.",
-                    Data = paymentResult.checkoutUrl
+                    Message = "Booking created and payment link generated successfully.",
+                    Data = paymentBookingResponse
                 };
             }
             catch (Exception ex)
@@ -70,6 +86,7 @@ namespace BookingHotel_Application.BLL.Service
                 };
             }
         }
+
 
         public async Task HandlePaymentSuccess(string paymentId)
         {
@@ -86,6 +103,13 @@ namespace BookingHotel_Application.BLL.Service
                 {
                     booking.bookingStatus = BookingStatus.Booked;
                     _unitOfWork.BookingRepository.Update(booking);
+                    await _unitOfWork.SaveChangeAsync();
+                }
+                var paymentStatus = await _unitOfWork.PaymentRepository.GetByIdAsync(paymentId);
+                if (paymentStatus != null)
+                {
+                    paymentStatus.paymentStauts = "Success";
+                    _unitOfWork.PaymentRepository.Update(paymentStatus);
                     await _unitOfWork.SaveChangeAsync();
                 }
             }
