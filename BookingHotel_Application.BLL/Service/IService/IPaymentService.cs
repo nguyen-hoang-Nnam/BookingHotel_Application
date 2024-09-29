@@ -12,6 +12,7 @@ namespace BookingHotel_Application.BLL.Service.IService
     public interface IPaymentService
     {
         Task<ResponseDTO> CreatePaymentLink(Booking booking, decimal totalPrice);
-         Task HandlePaymentSuccess(string transactionId);
+         Task HandlePaymentSuccess(string paymentId);
+        Task<ResponseDTO> HandlePaymentByTransactionId(string transactionId);
     }
 }
