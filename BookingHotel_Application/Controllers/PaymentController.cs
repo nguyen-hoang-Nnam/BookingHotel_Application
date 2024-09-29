@@ -37,6 +37,13 @@ namespace BookingHotel_Application.Controllers
             await _paymentService.HandlePaymentSuccess(paymentId);
             return Ok("Payment processed successfully.");
         }
+        
+        [HttpGet("ConfirmPayment/{transactionId}")]
+        public async Task<IActionResult> ConfirmPayment(string transactionId)
+        {
+            await _paymentService.HandlePaymentByTransactionId(transactionId);
+            return Ok("Payment processed successfully.");
+        }
 
         private decimal CalculateTotalPrice(Booking booking)
         {

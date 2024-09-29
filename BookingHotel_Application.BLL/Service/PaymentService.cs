@@ -114,5 +114,64 @@ namespace BookingHotel_Application.BLL.Service
                 }
             }
         }
+
+        public async Task<ResponseDTO> HandlePaymentByTransactionId(string transactionId)
+        {
+            // Log the transactionId for debugging
+            Console.WriteLine($"Handling payment with transactionId: {transactionId}");
+
+            // Fetch payment by transactionId
+            var payment = await _unitOfWork.PaymentRepository.GetByTransactionId(transactionId);
+
+            if (payment == null)
+            {
+                // Return failure response if payment is not found
+                return new ResponseDTO
+                {
+                    IsSucceed = false,
+                    Message = "Payment not found for the given transactionId."
+                };
+            }
+
+            // Fetch the associated booking using bookingId from the payment entity
+            var booking = await _unitOfWork.BookingRepository.GetByIdAsync(payment.bookingId);
+
+            if (booking == null)
+            {
+                // Return failure response if booking is not found
+                return new ResponseDTO
+                {
+                    IsSucceed = false,
+                    Message = "Booking not found for the given payment."
+                };
+            }
+
+            // Update the booking status to Booked (or any other relevant status)
+            booking.bookingStatus = BookingStatus.Booked;
+            _unitOfWork.BookingRepository.Update(booking); // Update the booking entity
+
+            // Update the payment status to Success
+            payment.paymentStauts = "Success";
+            _unitOfWork.PaymentRepository.Update(payment); // Update the payment entity
+
+            // Save the changes for both booking and payment
+            await _unitOfWork.SaveChangeAsync();
+
+            // Return a success response with updated booking and payment details
+            var response = new
+            {
+                bookingId = booking.bookingId,
+                bookingStatus = booking.bookingStatus.ToString(),
+                paymentStatus = payment.paymentStauts
+            };
+
+            return new ResponseDTO
+            {
+                IsSucceed = true,
+                Message = "Payment handled and booking status updated successfully.",
+                Data = response
+            };
+        }
+
     }
 }
