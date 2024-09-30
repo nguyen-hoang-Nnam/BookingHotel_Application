@@ -4,6 +4,7 @@ using BookingHotel_Application.Model.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingHotel_Application.Model.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240930141614_user_data")]
+    partial class user_data
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,11 +58,11 @@ namespace BookingHotel_Application.Model.Migrations
                     b.HasData(
                         new
                         {
-                            adminId = -1,
+                            adminId = 1,
                             Address = "Admin Address",
                             firstName = "Admin",
                             lastName = "User",
-                            userId = "d48a0e76-84ba-4483-b573-5ed86a832490"
+                            userId = "2b089b74-0941-4478-bc24-6296038bba35"
                         });
                 });
 
@@ -186,11 +189,11 @@ namespace BookingHotel_Application.Model.Migrations
                     b.HasData(
                         new
                         {
-                            customerId = -1,
+                            customerId = 1,
                             Address = "Customer Address",
                             firstName = "Customer",
                             lastName = "User",
-                            userId = "fae4224b-1772-4820-b36e-372eb75e5a2c"
+                            userId = "69813064-f1d0-46f4-b8b8-9e89b1319c3b"
                         });
                 });
 
@@ -357,11 +360,11 @@ namespace BookingHotel_Application.Model.Migrations
                     b.HasData(
                         new
                         {
-                            staffId = -1,
+                            staffId = 1,
                             Address = "Staff Address",
                             firstName = "Staff",
                             lastName = "User",
-                            userId = "56cfc5fd-a40d-457c-99a9-8959e626a26c"
+                            userId = "8473dd4b-6455-4df1-ba92-23e8bfd475de"
                         });
                 });
 
@@ -403,33 +406,33 @@ namespace BookingHotel_Application.Model.Migrations
                     b.HasData(
                         new
                         {
-                            userId = "d48a0e76-84ba-4483-b573-5ed86a832490",
+                            userId = "2b089b74-0941-4478-bc24-6296038bba35",
                             Email = "admin@gmail.com",
                             Role = 1,
                             Status = 1,
-                            passwordHash = "$2a$11$DelMv5rC9cxgosKjdMfaBeqndbJmvgS2P5MInvrUjdswDof1Q9136",
+                            passwordHash = "$2a$11$oIVEOHDrRJmLlclpxl2ZR.ceEWaIydpu87iHcFV5Ln.7rmoyUZoLm",
                             phoneNumber = "1234567890",
                             refreshToken = "",
                             userName = "admin"
                         },
                         new
                         {
-                            userId = "56cfc5fd-a40d-457c-99a9-8959e626a26c",
+                            userId = "8473dd4b-6455-4df1-ba92-23e8bfd475de",
                             Email = "staff@gmail.com",
                             Role = 2,
                             Status = 1,
-                            passwordHash = "$2a$11$xfBg6mORLywtbYG0L15A1.3m8K64k.109MJAVoYz2SF1/DccA97pa",
+                            passwordHash = "$2a$11$ReAREjjgSjWzjTU8XA8q1OxVkgh6/vgwlTqYfncgM3lS9uYEsfhAG",
                             phoneNumber = "1234567890",
                             refreshToken = "",
                             userName = "staff"
                         },
                         new
                         {
-                            userId = "fae4224b-1772-4820-b36e-372eb75e5a2c",
+                            userId = "69813064-f1d0-46f4-b8b8-9e89b1319c3b",
                             Email = "customer@gmail.com",
                             Role = 3,
                             Status = 1,
-                            passwordHash = "$2a$11$XcGcb.pJdH63rRKhs4BKculvMNfL4IG2e7k6rC4oSSYrB/hioPxJa",
+                            passwordHash = "$2a$11$bTuCiUL3P/oj7DcRG8HIE.0wLf.CjstxmrWqIgJd6J3aH2bZ8nQ6u",
                             phoneNumber = "1234567890",
                             refreshToken = "",
                             userName = "customer"

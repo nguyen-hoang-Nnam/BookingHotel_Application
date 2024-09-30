@@ -29,7 +29,7 @@ namespace BookingHotel_Application.Model.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-            // Seed User
+            // Admin
             var adminUser = new User
             {
                 userId = Guid.NewGuid().ToString(),
@@ -43,15 +43,64 @@ namespace BookingHotel_Application.Model.Data
 
             modelBuilder.Entity<User>().HasData(adminUser);
 
-            // Seed Admin using the User's ID
             modelBuilder.Entity<Admin>().HasData(
                 new Admin
                 {
-                    adminId = 1,
+                    adminId = -1,
                     firstName = "Admin",
                     lastName = "User",
                     Address = "Admin Address",
                     userId = adminUser.userId
+                }
+            );
+            
+            // Staff
+            var staffUser = new User
+            {
+                userId = Guid.NewGuid().ToString(),
+                userName = "staff",
+                Email = "staff@gmail.com",
+                passwordHash = HashPassword("staff"),
+                phoneNumber = "1234567890",
+                Role = UserRole.Staff,
+                Status = UserStatus.Active
+            };
+
+            modelBuilder.Entity<User>().HasData(staffUser);
+
+            modelBuilder.Entity<Staff>().HasData(
+                new Staff
+                {
+                    staffId = -1,
+                    firstName = "Staff",
+                    lastName = "User",
+                    Address = "Staff Address",
+                    userId = staffUser.userId
+                }
+            );
+            
+            // Seed Customer
+            var customerUser = new User
+            {
+                userId = Guid.NewGuid().ToString(),
+                userName = "customer",
+                Email = "customer@gmail.com",
+                passwordHash = HashPassword("customer"),
+                phoneNumber = "1234567890",
+                Role = UserRole.Customer,
+                Status = UserStatus.Active
+            };
+
+            modelBuilder.Entity<User>().HasData(customerUser);
+
+            modelBuilder.Entity<Customer>().HasData(
+                new Customer
+                {
+                    customerId = -1,
+                    firstName = "Customer",
+                    lastName = "User",
+                    Address = "Customer Address",
+                    userId = customerUser.userId
                 }
             );
 
