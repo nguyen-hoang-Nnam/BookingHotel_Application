@@ -36,7 +36,7 @@ namespace BookingHotel_Application.BLL.Service
                 List<ItemData> items = new List<ItemData> { item };
 
                 // Create payment data
-                PaymentData paymentData = new PaymentData(orderCode, (int)totalPrice, "Payment for booking", items, "https://www.facebook.com/FPTU.HCM", "https://fap.fpt.edu.vn/");
+                PaymentData paymentData = new PaymentData(orderCode, (int)totalPrice, "Payment for booking", items, "https://zen-edge.surge.sh/", "https://zen-edge.surge.sh/");
 
                 // Call PayOS to generate the payment link
                 CreatePaymentResult paymentResult = await _payOS.createPaymentLink(paymentData);

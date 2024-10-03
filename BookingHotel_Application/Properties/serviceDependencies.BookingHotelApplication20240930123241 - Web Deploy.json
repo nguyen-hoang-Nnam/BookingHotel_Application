@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Web/sites/BookingHotelApplication20240930123241/providers/Microsoft.ServiceLinker/linkers/ConnectionStringsConnection_A8DDFAD7A0",
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/bookinghotel-applicationdbserver/databases/BookingHotel_Application_db",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:Connection"
+    }
+  }
+}
