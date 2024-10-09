@@ -43,5 +43,9 @@ namespace BookingHotel_Application.DAL.Repository
                 .Where(room => room.Hotel != null && room.Hotel.hotelId == hotelId)
                 .ToListAsync();
         }
+        public void Update(Room room)
+        {
+            _appDbContext.Rooms.Update(room);
+        }
     }
 }

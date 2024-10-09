@@ -112,6 +112,13 @@ namespace BookingHotel_Application.BLL.Service
                     _unitOfWork.PaymentRepository.Update(paymentStatus);
                     await _unitOfWork.SaveChangeAsync();
                 }
+                var roomStatus = await _unitOfWork.RoomRepository.GetByIdAsync(payment.Booking.roomId);
+                if (roomStatus != null)
+                {
+                    roomStatus.roomStatus = RoomStatus.Booked;
+                    _unitOfWork.RoomRepository.Update(roomStatus);
+                    await _unitOfWork.SaveChangeAsync();
+                }
             }
         }
 

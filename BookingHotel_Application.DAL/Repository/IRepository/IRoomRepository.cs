@@ -13,5 +13,6 @@ namespace BookingHotel_Application.DAL.Repository.IRepository
         Task<Room?> GetById(int hotelid);
         Task<IEnumerable<Room>> GetRoomByRoomTypeIdAsync(int roomTypeId);
         Task<IEnumerable<Room>> GetRoomByHotelIdAsync(int hotelId);
+        void Update(Room room);
     }
 }
