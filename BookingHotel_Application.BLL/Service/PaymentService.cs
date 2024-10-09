@@ -153,6 +153,17 @@ namespace BookingHotel_Application.BLL.Service
                 };
             }
 
+            var roomStatus = await _unitOfWork.RoomRepository.GetByIdAsync(payment.Booking.roomId);
+            if (roomStatus == null)
+            {
+                // Return failure response if booking is not found
+                return new ResponseDTO
+                {
+                    IsSucceed = false,
+                    Message = "Room not found for the given payment."
+                };
+            }
+
             // Update the booking status to Booked (or any other relevant status)
             booking.bookingStatus = BookingStatus.Booked;
             _unitOfWork.BookingRepository.Update(booking); // Update the booking entity
@@ -160,6 +171,9 @@ namespace BookingHotel_Application.BLL.Service
             // Update the payment status to Success
             payment.paymentStauts = "Success";
             _unitOfWork.PaymentRepository.Update(payment); // Update the payment entity
+
+            roomStatus.roomStatus = RoomStatus.Booked;
+            _unitOfWork.RoomRepository.Update(roomStatus);
 
             // Save the changes for both booking and payment
             await _unitOfWork.SaveChangeAsync();
@@ -169,7 +183,8 @@ namespace BookingHotel_Application.BLL.Service
             {
                 bookingId = booking.bookingId,
                 bookingStatus = booking.bookingStatus.ToString(),
-                paymentStatus = payment.paymentStauts
+                paymentStatus = payment.paymentStauts,
+                roomStatus = roomStatus.roomStatus
             };
 
             return new ResponseDTO
