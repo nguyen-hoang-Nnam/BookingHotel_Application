@@ -45,6 +45,32 @@ namespace BookingHotel_Application.Controllers
             return Ok("Payment processed successfully.");
         }
 
+        [HttpGet("GetPendingPayments")]
+        public async Task<IActionResult> GetPendingPayments()
+        {
+            var result = await _paymentService.GetPendingPayments();
+
+            if (result.IsSucceed)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
+        [HttpGet("GetSuccessPayments")]
+        public async Task<IActionResult> GetSuccessPayments()
+        {
+            var result = await _paymentService.GetSuccessPayments();
+
+            if (result.IsSucceed)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
         private decimal CalculateTotalPrice(Booking booking)
         {
             return booking.totalPrice;

@@ -28,5 +28,23 @@ namespace BookingHotel_Application.DAL.Repository
         {
             _appDbContext.Payments.Update(payment);
         }
+
+        public IQueryable<Payment> GetPendingPayments()
+        {
+            return _appDbContext.Payments
+                .Include(p => p.Booking)
+                .ThenInclude(b => b.User)
+                .Include(p => p.Booking.Room)
+                .Where(p => p.paymentStauts == "Pending");
+        }
+
+        public IQueryable<Payment> GetSuccessPayments()
+        {
+            return _appDbContext.Payments
+                .Include(p => p.Booking)
+                .ThenInclude(b => b.User)
+                .Include(p => p.Booking.Room)
+                .Where(p => p.paymentStauts == "Success");
+        }
     }
 }

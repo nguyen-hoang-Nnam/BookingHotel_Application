@@ -122,6 +122,17 @@ namespace BookingHotel_Application.Model.Mapper
 
             // Payment
             CreateMap<Payment, PaymentDTO>().ReverseMap();
+            CreateMap<Payment, PaymentDTO>()
+            .ForMember(dest => dest.bookingId, opt => opt.MapFrom(src => src.Booking.bookingId))
+            .ForMember(dest => dest.bookingDate, opt => opt.MapFrom(src => src.Booking.bookingDate))
+            .ForMember(dest => dest.checkIn, opt => opt.MapFrom(src => src.Booking.checkIn))
+            .ForMember(dest => dest.checkOut, opt => opt.MapFrom(src => src.Booking.checkOut))
+            .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Booking.User.Email))
+            .ForMember(dest => dest.phoneNumber, opt => opt.MapFrom(src => src.Booking.User.phoneNumber))
+            .ForMember(dest => dest.roomName, opt => opt.MapFrom(src => src.Booking.Room.roomName))
+            .ForMember(dest => dest.pricePerDay, opt => opt.MapFrom(src => src.Booking.Room.pricePerDay))
+            .ForMember(dest => dest.roomSize, opt => opt.MapFrom(src => src.Booking.Room.roomSize))
+            .ReverseMap();
 
 
         }
