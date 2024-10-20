@@ -12,6 +12,8 @@ using BookingHotel_Application.DAL.UoW.IUoW;
 using BookingHotel_Application.DAL.Repository;
 using BookingHotel_Application.Model.Models.DTO.Comment;
 using BookingHotel_Application.Model.Models;
+using BookingHotel_Application.Model.Enum;
+using Net.payOS;
 
 namespace BookingHotel_Application.BLL.Service
 {
@@ -20,12 +22,14 @@ namespace BookingHotel_Application.BLL.Service
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPaymentService _paymentService;
         private readonly IMapper _mapper;
+        private readonly PayOS _payOS;
 
-        public BookingService(IMapper mapper, IUnitOfWork unitOfWork, IPaymentService paymentService)
+        public BookingService(IMapper mapper, IUnitOfWork unitOfWork, IPaymentService paymentService, PayOS payOS)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _paymentService = paymentService;
+            _payOS = payOS;
         }
 
         public async Task<ResponseDTO> GetAllBookingsAsync()
@@ -176,5 +180,38 @@ namespace BookingHotel_Application.BLL.Service
 
             return response;
         }
+
+        public async Task<ResponseDTO> CancelBookingAsync(int bookingId)
+        {
+            // Retrieve booking
+            var booking = await _unitOfWork.BookingRepository.GetByIdAsync(bookingId);
+
+            if (booking == null)
+            {
+                return new ResponseDTO { IsSucceed = false, Message = "Booking not found" };
+            }
+
+            try
+            {
+                // Call PayOS to cancel the payment link
+                var cancelResponse = await _payOS.cancelPaymentLink(booking.bookingId);
+                if (cancelResponse == null || cancelResponse.status != "Cancelled")
+                {
+                    return new ResponseDTO { IsSucceed = false, Message = "Failed to cancel payment link" };
+                }
+
+                // Update booking status to Cancelled
+                booking.bookingStatus = BookingStatus.Cancel;
+                _unitOfWork.BookingRepository.Update(booking);
+                await _unitOfWork.SaveChangeAsync();
+
+                return new ResponseDTO { IsSucceed = true, Message = "Booking and payment link cancelled successfully" };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseDTO { IsSucceed = false, Message = "Failed to cancel booking: " + ex.Message };
+            }
+        }
+
     }
 }
