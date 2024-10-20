@@ -1,9 +1,11 @@
-﻿using BookingHotel_Application.BLL.Service.IService;
+﻿using AutoMapper;
+using BookingHotel_Application.BLL.Service.IService;
 using BookingHotel_Application.DAL.UoW.IUoW;
 using BookingHotel_Application.Model.Enum;
 using BookingHotel_Application.Model.Models;
 using BookingHotel_Application.Model.Models.DTO;
 using BookingHotel_Application.Model.Models.DTO.Payment;
+using Microsoft.EntityFrameworkCore;
 using Net.payOS;
 using Net.payOS.Types;
 using System;
@@ -18,11 +20,13 @@ namespace BookingHotel_Application.BLL.Service
     {
         private readonly PayOS _payOS;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public PaymentService(PayOS payOS, IUnitOfWork unitOfWork)
+        public PaymentService(PayOS payOS, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _payOS = payOS;
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         public async Task<ResponseDTO> CreatePaymentLink(Booking booking, decimal totalPrice)
@@ -195,5 +199,64 @@ namespace BookingHotel_Application.BLL.Service
             };
         }
 
+        public async Task<ResponseDTO> GetPendingPayments()
+        {
+            try
+            {
+                // Use the repository to get payments with 'Pending' status
+                var pendingPayments = await _unitOfWork.PaymentRepository.GetPendingPayments().ToListAsync();
+                // Use AutoMapper to map Payment entities to PaymentDTOs
+                var paymentDTOs = _mapper.Map<List<PaymentDTO>>(pendingPayments);
+
+                // Return the result in a ResponseDTO
+                return new ResponseDTO
+                {
+                    IsSucceed = true,
+                    Message = "Pending payments retrieved successfully.",
+                    Data = paymentDTOs
+                };
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions and return an error response
+                return new ResponseDTO
+                {
+                    IsSucceed = false,
+                    Message = $"An error occurred while retrieving pending payments: {ex.Message}",
+                    Data = null
+                };
+            }
+
+        }
+        public async Task<ResponseDTO> GetSuccessPayments()
+        {
+            try
+            {
+                // Use the repository to get payments with 'Pending' status
+                var pendingPayments = await _unitOfWork.PaymentRepository.GetSuccessPayments().ToListAsync();
+
+                // Use AutoMapper to map Payment entities to PaymentDTOs
+                var paymentDTOs = _mapper.Map<List<PaymentDTO>>(pendingPayments);
+
+                // Return the result in a ResponseDTO
+                return new ResponseDTO
+                {
+                    IsSucceed = true,
+                    Message = "Success payments retrieved successfully.",
+                    Data = paymentDTOs
+                };
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions and return an error response
+                return new ResponseDTO
+                {
+                    IsSucceed = false,
+                    Message = $"An error occurred while retrieving pending payments: {ex.Message}",
+                    Data = null
+                };
+            }
+
+        }
     }
 }

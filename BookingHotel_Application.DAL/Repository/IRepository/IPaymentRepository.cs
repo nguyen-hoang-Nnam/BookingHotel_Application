@@ -11,5 +11,7 @@ namespace BookingHotel_Application.DAL.Repository.IRepository
     {
         Task<Payment> GetByTransactionId(string transactionId);
         void Update(Payment payment);
+        IQueryable<Payment> GetPendingPayments();
+        IQueryable<Payment> GetSuccessPayments();
     }
 }
