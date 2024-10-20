@@ -83,5 +83,17 @@ namespace BookingHotel_Application.Controllers
             if (!result.IsSucceed) return NotFound(result);
             return Ok(result);
         }
+
+        [HttpPut("{bookingId}/cancel")]
+        public async Task<IActionResult> CancelBooking([FromRoute] int bookingId)
+        {
+            var result = await _bookingService.CancelBookingAsync(bookingId);
+            if (result.IsSucceed)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
     }
 }
