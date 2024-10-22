@@ -80,7 +80,7 @@ namespace BookingHotel_Application.BLL.Service
 
             var booking = _mapper.Map<Booking>(createBookingDTO);
             booking.bookingDate = DateTime.UtcNow;
-            booking.bookingStatus = Model.Enum.BookingStatus.Pending;
+            booking.bookingStatus = Model.Enum.BookingStatus.Booked;
             booking.totalPrice = totalPrice;
             booking.Room = room;
             booking.User = user;
