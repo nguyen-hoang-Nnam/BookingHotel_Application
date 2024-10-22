@@ -114,8 +114,7 @@ namespace BookingHotel_Application.BLL.Service
                 return new ResponseDTO
                 {
                     IsSucceed = false,
-                    Message = "Update failed",
-                    Data = result
+                    Message = "Update failed"
                 };
             }
 
@@ -124,7 +123,8 @@ namespace BookingHotel_Application.BLL.Service
             return new ResponseDTO
             {
                 IsSucceed = true,
-                Message = "Room status updated to Active successfully"
+                Message = "Room status updated to Active successfully",
+                Data = result
             };
         }
 
