@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BookingHotel_Application.Model.Models.DTO.Room;
+using BookingHotel_Application.Model.Enum;
 
 namespace BookingHotel_Application.BLL.Service
 {
@@ -90,9 +91,10 @@ namespace BookingHotel_Application.BLL.Service
             };
         }
 
-        public async Task<ResponseDTO> UpdateRoomAsync(int roomid, UpdateRoomDTO updateRoomDTO)
+        public async Task<ResponseDTO> UpdateRoomAsync(int roomid)
         {
             var room = await _unitOfWork.RoomRepository.GetByIdAsync(roomid);
+
             if (room == null)
             {
                 return new ResponseDTO
@@ -101,28 +103,9 @@ namespace BookingHotel_Application.BLL.Service
                     Message = "Room not found"
                 };
             }
-            var roomType = await _unitOfWork.RoomTypeRepository.GetByIdAsync(updateRoomDTO.roomTypeId);
-            if (roomType == null)
-            {
-                return new ResponseDTO
-                {
-                    IsSucceed = false,
-                    Message = "Room Type not found."
-                };
-            }
-            var hotel = await _unitOfWork.HotelRepository.GetByIdAsync(updateRoomDTO.hotelId);
-            if (hotel == null)
-            {
-                return new ResponseDTO
-                {
-                    IsSucceed = false,
-                    Message = "Hotel not found."
-                };
-            }
 
-            _mapper.Map(updateRoomDTO, room);
-            room.RoomType = roomType;
-            room.Hotel = hotel;
+            room.roomStatus = RoomStatus.Active;
+
             var result = await _unitOfWork.RoomRepository.UpdateAsync(room);
 
             if (!result)
@@ -135,12 +118,14 @@ namespace BookingHotel_Application.BLL.Service
             }
 
             await _unitOfWork.SaveChangeAsync();
+
             return new ResponseDTO
             {
                 IsSucceed = true,
-                Message = "Room updated successfully"
+                Message = "Room status updated to Active successfully"
             };
         }
+
 
         public async Task<ResponseDTO> DeleteRoomAsync(int roomid)
         {

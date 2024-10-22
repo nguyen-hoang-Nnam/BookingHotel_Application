@@ -49,12 +49,12 @@ namespace BookingHotel_Application.Controllers
 
         [HttpPut]
         [Route("UpdateRoom/{id:int}")]
-        public async Task<IActionResult> UpdateRoom(int id, [FromBody] UpdateRoomDTO updateRoomDTO)
+        public async Task<IActionResult> UpdateRoom(int id)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var response = await _roomService.UpdateRoomAsync(id, updateRoomDTO);
+            var response = await _roomService.UpdateRoomAsync(id);
             if (!response.IsSucceed)
                 return BadRequest(response);
 

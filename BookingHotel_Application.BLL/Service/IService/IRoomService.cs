@@ -14,7 +14,7 @@ namespace BookingHotel_Application.BLL.Service.IService
         Task<ResponseDTO> GetAllRoomAsync();
         Task<ResponseDTO> GetRoomByIdAsync(int roomid);
         Task<ResponseDTO> CreateRoomAsync(CreateRoomDTO createHotelDTO);
-        Task<ResponseDTO> UpdateRoomAsync(int roomid, UpdateRoomDTO updateHotelDTO);
+        Task<ResponseDTO> UpdateRoomAsync(int roomid);
         Task<ResponseDTO> DeleteRoomAsync(int roomid);
         Task<ResponseDTO> GetRoomsByRoomTypeIdAsync(int roomTypeId);
         Task<ResponseDTO> GetRoomsByHotelIdAsync(int hotelId);
