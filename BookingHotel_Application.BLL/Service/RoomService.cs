@@ -124,7 +124,6 @@ namespace BookingHotel_Application.BLL.Service
             {
                 IsSucceed = true,
                 Message = "Room status updated to Active successfully",
-                Data = room
             };
         }
 
