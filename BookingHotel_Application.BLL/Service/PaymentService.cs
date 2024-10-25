@@ -39,8 +39,11 @@ namespace BookingHotel_Application.BLL.Service
                 ItemData item = new ItemData(booking.Room.roomName, 1, (int)totalPrice);
                 List<ItemData> items = new List<ItemData> { item };
 
+                string buyerEmail = booking.User?.Email;
+                string buyerPhone = booking.User?.phoneNumber;
+
                 // Create payment data
-                PaymentData paymentData = new PaymentData(orderCode, (int)totalPrice, "Payment for booking", items, "https://zen-edge.surge.sh/", "https://zen-edge.surge.sh/");
+                PaymentData paymentData = new PaymentData(orderCode, (int)totalPrice, "Payment for booking", items, "https://zen-edge.surge.sh/", "https://zen-edge.surge.sh/", buyerEmail: buyerEmail, buyerPhone: buyerPhone);
 
                 // Call PayOS to generate the payment link
                 CreatePaymentResult paymentResult = await _payOS.createPaymentLink(paymentData);
